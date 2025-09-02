@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2e7d32;
+            text-align: center;
+        }
+        .status {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌳 乡村硅谷任务管理系统 - 测试页面</h1>
+        
+        <div class="status">
+            <h2>连接状态测试</h2>
+            <p>✅ 如果您能看到这个页面，说明基础的 HTTP 服务正常工作</p>
+            <p>📅 当前时间: <span id="time"></span></p>
+        </div>
+
+        <div class="status">
+            <h2>系统信息</h2>
+            <p>🌐 协议: HTTP</p>
+            <p>🔧 服务器: Vite 开发服务器</p>
+            <p>📱 项目: 乡村硅谷任务管理应用</p>
+        </div>
+    </div>
+
+    <script>
+        // 显示当前时间
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleString('zh-CN');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        console.log('测试页面加载成功');
+    </script>
+</body>
+</html>
