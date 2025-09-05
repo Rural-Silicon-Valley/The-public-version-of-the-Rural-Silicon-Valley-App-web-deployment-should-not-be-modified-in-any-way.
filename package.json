@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite --port 5174",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -15,31 +15,19 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-<<<<<<< HEAD
-    "@mui/icons-material": "^5.15.11",
-    "@mui/material": "^5.15.11",
-    "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.18.0",
+    "@mui/icons-material": "^7.3.1",
+    "@mui/material": "^7.3.1",
+    "@react-three/drei": "^9.88.13",
+    "@react-three/fiber": "^8.15.19",
     "@types/react-router-dom": "^5.3.3",
-    "@types/three": "^0.142.0",
+    "@types/three": "^0.180.0",
     "@types/uuid": "^10.0.0",
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.8.2",
-    "three": "^0.142.0",
-=======
-    "@mui/icons-material": "^7.3.1",
-    "@mui/material": "^7.3.1",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/uuid": "^10.0.0",
-    "axios": "^1.11.0",
-    "date-fns": "^4.1.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.2",
->>>>>>> 55aea2d1ee0f4bdc0828d1bc3c320d3793eb7868
+    "three": "^0.180.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

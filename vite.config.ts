@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-<<<<<<< HEAD
   plugins: [
     react(),
     {
@@ -32,7 +31,4 @@ export default defineConfig({
       }
     }
   }
-=======
-  plugins: [react()],
->>>>>>> 55aea2d1ee0f4bdc0828d1bc3c320d3793eb7868
 })

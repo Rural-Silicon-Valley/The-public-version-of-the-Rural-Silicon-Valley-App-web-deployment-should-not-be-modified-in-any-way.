@@ -126,7 +126,7 @@ const LovePage = () => {
 
         <Grid container spacing={2}>
           {relationships.map((relation) => (
-            <Grid item xs={12} key={relation.id}>
+            <Box key={relation.id}>
               <Card sx={{
                 bgcolor: 'rgba(233, 30, 99, 0.05)',
                 borderRadius: 2,
@@ -202,7 +202,7 @@ const LovePage = () => {
                   </IconButton>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
         </Grid>
 

@@ -386,7 +386,7 @@ export const FamilyPage: React.FC = () => {
                 if (!relatedUser) return null;
 
                 return (
-                  <Grid item xs={12} key={relation.id}>
+                  <Box key={relation.id}>
                     <Card sx={{
                       bgcolor: 'rgba(233, 30, 99, 0.05)',
                       borderRadius: 2,
@@ -510,7 +510,7 @@ export const FamilyPage: React.FC = () => {
 
                       </CardContent>
                     </Card>
-                  </Grid>
+                  </Box>
                 );
               })}
             </Grid>

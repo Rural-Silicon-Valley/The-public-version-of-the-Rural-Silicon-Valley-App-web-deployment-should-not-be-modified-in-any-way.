@@ -10,35 +10,26 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
-<<<<<<< HEAD
-    "types": [
-      "three",
-      "@react-three/fiber",
-      "@react-three/drei"
-    ],
-=======
->>>>>>> 55aea2d1ee0f4bdc0828d1bc3c320d3793eb7868
+    "types": [],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-<<<<<<< HEAD
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-=======
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
->>>>>>> 55aea2d1ee0f4bdc0828d1bc3c320d3793eb7868
     "noEmit": true,
     "jsx": "react-jsx",
     /* Linting */
     "strict": true,
-<<<<<<< HEAD
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": [
     "src"
@@ -48,15 +39,4 @@
       "path": "./tsconfig.node.json"
     }
   ]
-=======
-    "noUnusedLocals": true,
-  "noUnusedParameters": true,
-  "erasableSyntaxOnly": true,
-  "noFallthroughCasesInSwitch": true,
-  "noUncheckedSideEffectImports": true
-},
-"include": [
-  "src"
-]
->>>>>>> 55aea2d1ee0f4bdc0828d1bc3c320d3793eb7868
 }
