@@ -3,10 +3,30 @@ export interface User {
   id: string;
   name: string;
   avatar?: string;
-  role: 'admin' | 'member';
+  role: 'admin' | 'member' | 'couple';
   joinDate: Date;
   email?: string;
   phone?: string;
+  relationships?: {
+    family?: FamilyRelationship[];
+    love?: LoveRelationship[];
+  };
+}
+
+// 家庭关系类型定义
+export interface FamilyRelationship {
+  id: string;
+  memberId: string;
+  relationshipType: string;
+  description?: string;
+}
+
+// 恋爱关系类型定义
+export interface LoveRelationship {
+  id: string;
+  partnerId: string;
+  status: 'dating' | 'engaged' | 'married';
+  description?: string;
 }
 
 // 任务类型定义

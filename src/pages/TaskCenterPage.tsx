@@ -24,11 +24,11 @@ import {
   Cancel as CancelIcon,
   TrendingUp as TrendingUpIcon,
 } from '@mui/icons-material';
-import { PageLayout } from '../components/PageLayout';
+import PageLayout from '../components/PageLayout';
 import { useApp } from '../context/AppContext';
 import type { Task } from '../types';
 import { TaskCard } from '../components/TaskCard';
-import { CreateTaskPage } from './CreateTaskPage';
+import CreateTaskPage from './CreateTaskPage';
 
 // 任务状态枚举
 const TaskStatus = {

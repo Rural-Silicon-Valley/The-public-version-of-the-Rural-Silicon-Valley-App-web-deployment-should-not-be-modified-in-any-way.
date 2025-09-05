@@ -23,7 +23,7 @@ import {
   CloudOff as OfflineIcon,
   Help as HelpIcon,
 } from '@mui/icons-material';
-import { PageLayout } from '../components/PageLayout';
+import PageLayout from '../components/PageLayout';
 
 export default function CheckInPage() {
   const upcomingFeatures = [

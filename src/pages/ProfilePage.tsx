@@ -56,7 +56,7 @@ import {
 } from '@mui/icons-material';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { PageLayout } from '../components/PageLayout';
+import PageLayout from '../components/PageLayout';
 
 const ProfilePage: React.FC = () => {
   const { state, dispatch } = useApp();

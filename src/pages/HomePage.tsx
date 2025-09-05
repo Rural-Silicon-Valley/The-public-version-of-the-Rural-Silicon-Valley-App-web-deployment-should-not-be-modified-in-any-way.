@@ -18,7 +18,7 @@ import {
 import { CheckCircle, RadioButtonUnchecked, ExitToApp, Assessment, Group, Assignment } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { PageLayout } from '../components/PageLayout';
+import PageLayout from '../components/PageLayout';
 
 // 生成彩色头像
 const getAvatarColor = (name: string) => {

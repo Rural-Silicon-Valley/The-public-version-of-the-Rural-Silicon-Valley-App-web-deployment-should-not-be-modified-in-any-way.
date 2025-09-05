@@ -6,7 +6,7 @@ import { theme } from './theme';
 import HomePage from './pages/HomePage';
 import CreateTaskPage from './pages/CreateTaskPage';
 import ProfilePage from './pages/ProfilePage';
-import UserSelectionPage from './pages/NewUserSelectionPage';
+import NewUserSelectionPage from './pages/NewUserSelectionPage';
 import StatisticsPage from './pages/StatisticsPage';
 import TeamPage from './pages/TeamPage';
 import TaskCenterPage from './pages/TaskCenterPage';
@@ -26,7 +26,7 @@ function App() {
             position: 'relative'
           }}>
             <Routes>
-              <Route path="/user-selection" element={<UserSelectionPage />} />
+              <Route path="/user-selection" element={<NewUserSelectionPage />} />
               <Route path="/" element={
                 <PageLayout>
                   <HomePage />

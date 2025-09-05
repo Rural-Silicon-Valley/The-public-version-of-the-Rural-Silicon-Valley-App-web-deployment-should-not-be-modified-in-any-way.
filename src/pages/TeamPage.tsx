@@ -20,7 +20,7 @@ import {
   Assignment as AssignmentIcon,
   CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
-import { PageLayout } from '../components/PageLayout';
+import PageLayout from '../components/PageLayout';
 import { useApp } from '../context/AppContext';
 
 // 生成头像颜色

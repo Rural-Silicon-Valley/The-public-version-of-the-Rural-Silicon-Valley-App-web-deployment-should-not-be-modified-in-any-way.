@@ -31,7 +31,7 @@ interface CreateTaskPageProps {
   onTaskCreated?: () => void;
 }
 
-export function CreateTaskPage({ onTaskCreated }: CreateTaskPageProps = {}) {
+function CreateTaskPage({ onTaskCreated }: CreateTaskPageProps = {}) {
   const navigate = useNavigate();
   const { state, dispatch } = useApp();
   const [formData, setFormData] = useState({
@@ -332,3 +332,5 @@ export function CreateTaskPage({ onTaskCreated }: CreateTaskPageProps = {}) {
     </Box>
   );
 }
+
+export default CreateTaskPage;

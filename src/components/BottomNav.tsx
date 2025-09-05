@@ -5,23 +5,28 @@ import {
   Assignment, 
   CheckCircle, 
   People, 
-  Person 
+  Person,
+  FamilyRestroom
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { SxProps, Theme } from '@mui/material/styles';
+
 interface BottomNavProps {
-  sx?: any;
+  sx?: SxProps<Theme>;
 }
 
-export function BottomNav({ sx }: BottomNavProps) {
+function BottomNav({ sx }: BottomNavProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
   const navigationItems = [
-    { label: '首页', value: '/', icon: <Home /> },
-    { label: '统计', value: '/home', icon: <Assignment /> },
-    { label: '打卡', value: '/checkin', icon: <CheckCircle /> },
+    { label: '首页', value: '/home', icon: <Home /> },
+    { label: '任务', value: '/tasks', icon: <Assignment /> },
+    { label: '打卡', value: '/check-in', icon: <CheckCircle /> },
     { label: '团队', value: '/team', icon: <People /> },
+    { label: '家庭', value: '/family', icon: <FamilyRestroom /> },
+    { label: '3D', value: '/explore-3d', icon: <span role="img" aria-label="explore">�</span> },
     { label: '我的', value: '/profile', icon: <Person /> },
   ];
 
@@ -71,3 +76,5 @@ export function BottomNav({ sx }: BottomNavProps) {
     </Paper>
   );
 }
+
+export default BottomNav;

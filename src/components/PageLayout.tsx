@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Box } from '@mui/material';
-import { BottomNav } from './BottomNav';
+import BottomNav from './BottomNav';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface PageLayoutProps {
   hasBottomNav?: boolean;
 }
 
-export function PageLayout({ 
+function PageLayout({ 
   children, 
   maxWidth = 'sm', 
   hasBottomNav = true 
@@ -34,3 +34,5 @@ export function PageLayout({
     </Box>
   );
 }
+
+export default PageLayout;

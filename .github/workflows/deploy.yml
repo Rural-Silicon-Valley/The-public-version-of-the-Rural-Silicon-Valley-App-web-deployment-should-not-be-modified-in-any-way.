@@ -1,0 +1,71 @@
+name: Deploy to Alibaba Cloud ECS
+
+# 控制此工作流程的触      - name: Deploy on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            rm -rf /usr/share/nginx/html/*
+            cp -r /tmp/deploy/dist/* /usr/share/nginx/html/
+            rm -rf /tmp/deploy
+            restorecon -Rv /usr/share/nginx/html/
+            systemctl restart nginx# 当有代码推送到 main 分支时触发
+  push:
+    branches: [ main ]
+
+# 一组按顺序运行的作业
+jobs:
+  build-and-deploy:
+    # 作业运行的虚拟环境类型
+    runs-on: ubuntu-latest
+
+    steps:
+      # 第一步：签出代码
+      # 这个步骤会下载你的仓库代码到虚拟环境中
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 第二步：设置 Node.js 环境
+      # 因为你的项目是 React，需要 Node.js 来构建
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # 可以根据你的项目需求更改
+
+      # 第三步：安装项目依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 第四步：构建项目
+      # 这会执行 npm run build，生成 dist 文件夹
+      - name: Build project
+        run: npm run build
+
+      # 第五步：将构建好的文件上传到你的阿里云服务器
+      - name: Deploy to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "dist/*" # 将 dist 文件夹下的所有内容上传
+          target: "/tmp/deploy" # 先上传到一个临时目录
+
+      # 第六步：在服务器上执行部署脚本
+      - name: Execute deployment script on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            rm -rf /usr/share/nginx/html/*
+            cp -r /tmp/deploy/* /usr/share/nginx/html/
+            restorecon -Rv /usr/share/nginx/html/
+            systemctl restart nginx
+            rm -rf /tmp/deploy

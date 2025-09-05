@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { User, Task, CheckIn, Team } from '../types';
+import type { User, Task, CheckIn, Team, FamilyRelationship, LoveRelationship } from '../types';
 import { initializeAppData } from '../utils/mockData';
 
 // 应用状态接口
@@ -23,6 +23,10 @@ type AppAction =
   | { type: 'ADD_USER'; payload: User }
   | { type: 'UPDATE_USER'; payload: User }
   | { type: 'DELETE_USER'; payload: string }
+  | { type: 'ADD_FAMILY_RELATIONSHIP'; payload: { userId: string; relationship: FamilyRelationship } }
+  | { type: 'DELETE_FAMILY_RELATIONSHIP'; payload: { userId: string; relationshipId: string } }
+  | { type: 'ADD_LOVE_RELATIONSHIP'; payload: { userId: string; relationship: LoveRelationship } }
+  | { type: 'DELETE_LOVE_RELATIONSHIP'; payload: { userId: string; relationshipId: string } }
   | { type: 'SET_TASKS'; payload: Task[] }
   | { type: 'ADD_TASK'; payload: Task }
   | { type: 'UPDATE_TASK'; payload: Task }
@@ -44,8 +48,19 @@ const initialState: AppState = {
   error: null,
 };
 
+// 保存用户数据到localStorage
+const saveUsersToLocalStorage = (users: User[]) => {
+  try {
+    localStorage.setItem('appUsers', JSON.stringify(users));
+  } catch (error) {
+    console.error('Error saving users to localStorage:', error);
+  }
+};
+
 // 状态管理 reducer
 function appReducer(state: AppState, action: AppAction): AppState {
+  let newState;
+  
   switch (action.type) {
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
@@ -57,26 +72,112 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, currentUser: action.payload };
     
     case 'SET_USERS':
-      return { ...state, users: action.payload };
+      newState = { ...state, users: action.payload };
+      saveUsersToLocalStorage(action.payload);
+      return newState;
     
     case 'ADD_USER':
-      return { ...state, users: [...state.users, action.payload] };
+      newState = { ...state, users: [...state.users, action.payload] };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
     
     case 'UPDATE_USER':
-      return {
+      newState = {
         ...state,
         users: state.users.map(user => 
           user.id === action.payload.id ? action.payload : user
         ),
         currentUser: state.currentUser?.id === action.payload.id ? action.payload : state.currentUser,
       };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
     
     case 'DELETE_USER':
-      return {
+      newState = {
         ...state,
         users: state.users.filter(user => user.id !== action.payload),
         currentUser: state.currentUser?.id === action.payload ? null : state.currentUser,
       };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
+
+    case 'ADD_FAMILY_RELATIONSHIP':
+      newState = {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.payload.userId) {
+            return {
+              ...user,
+              relationships: {
+                ...user.relationships || {},
+                family: [...(user.relationships?.family || []), action.payload.relationship]
+              }
+            };
+          }
+          return user;
+        })
+      };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
+
+    case 'DELETE_FAMILY_RELATIONSHIP':
+      newState = {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.payload.userId) {
+            return {
+              ...user,
+              relationships: {
+                ...user.relationships || {},
+                family: (user.relationships?.family || [])
+                  .filter(rel => rel.id !== action.payload.relationshipId)
+              }
+            };
+          }
+          return user;
+        })
+      };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
+
+    case 'ADD_LOVE_RELATIONSHIP':
+      newState = {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.payload.userId) {
+            return {
+              ...user,
+              relationships: {
+                ...user.relationships || {},
+                love: [...(user.relationships?.love || []), action.payload.relationship]
+              }
+            };
+          }
+          return user;
+        })
+      };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
+
+    case 'DELETE_LOVE_RELATIONSHIP':
+      newState = {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.payload.userId) {
+            return {
+              ...user,
+              relationships: {
+                ...user.relationships || {},
+                love: (user.relationships?.love || [])
+                  .filter(rel => rel.id !== action.payload.relationshipId)
+              }
+            };
+          }
+          return user;
+        })
+      };
+      saveUsersToLocalStorage(newState.users);
+      return newState;
     
     case 'SET_TASKS':
       return { ...state, tasks: action.payload };
@@ -130,7 +231,7 @@ const AppContext = createContext<{
 } | null>(null);
 
 // 上下文提供者组件
-export function AppProvider({ children }: { children: ReactNode }) {
+function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   // 初始化数据
@@ -143,7 +244,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     
     if (savedUserId) {
       // 从用户列表中查找已保存的用户
-      currentUser = data.users.find(user => user.id === savedUserId) || null;
+      currentUser = data.users.find((user: User) => user.id === savedUserId) || null;
     }
     
     dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
@@ -168,3 +269,6 @@ export function useApp() {
   }
   return context;
 }
+
+export { AppProvider };
+export default AppProvider;

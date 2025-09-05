@@ -4,39 +4,149 @@ import type { User, Task, CheckIn, Team } from '../types';
 export const mockUsers: User[] = [
   {
     id: 'user1',
-    name: '张小明',
+    name: '小宋',
     avatar: '',
     role: 'admin',
     joinDate: new Date('2024-01-15'),
-    email: 'zhangxiaoming@example.com',
+    email: 'xiaosong@example.com',
     phone: '13800138001',
+    relationships: {
+      family: [
+        {
+          id: 'fam1',
+          memberId: 'user2',
+          relationshipType: '兄弟',
+          description: '同一个创业团队的兄弟'
+        }
+      ],
+      love: [
+        {
+          id: 'love1',
+          partnerId: 'user4',
+          status: 'dating',
+          description: '在一起创业的恋人'
+        }
+      ]
+    }
   },
   {
     id: 'user2',
-    name: '李小红',
+    name: '辉哥',
     avatar: '',
     role: 'member',
-    joinDate: new Date('2024-02-01'),
-    email: 'lixiaohong@example.com',
+    joinDate: new Date('2024-04-04'),
+    email: 'huige@example.com',
     phone: '13800138002',
+    relationships: {
+      family: [
+        {
+          id: 'fam2',
+          memberId: 'user1',
+          relationshipType: '兄弟',
+          description: '创业团队中的好兄弟'
+        }
+      ]
+    }
   },
   {
     id: 'user3',
-    name: '王小强',
+    name: '倍倍',
     avatar: '',
     role: 'member',
-    joinDate: new Date('2024-02-10'),
-    email: 'wangxiaoqiang@example.com',
+    joinDate: new Date('2025-09-03'),
+    email: 'beibei@example.com',
     phone: '13800138003',
   },
   {
     id: 'user4',
-    name: '赵小丽',
+    name: '小甜',
     avatar: '',
     role: 'member',
-    joinDate: new Date('2024-02-15'),
-    email: 'zhaoxiaoli@example.com',
+    joinDate: new Date('2025-09-03'),
+    email: 'xiaotian@example.com',
     phone: '13800138004',
+    relationships: {
+      love: [
+        {
+          id: 'love2',
+          partnerId: 'user1',
+          status: 'dating',
+          description: '一起打造硅谷农场的恋人'
+        }
+      ]
+    }
+  },
+  {
+    id: 'user5',
+    name: '谷哥',
+    avatar: '',
+    role: 'member',
+    joinDate: new Date('2025-09-03'),
+    email: 'guge@example.com',
+    phone: '13800138005',
+  },
+  {
+    id: 'user6',
+    name: '谷妹',
+    avatar: '',
+    role: 'admin',
+    joinDate: new Date('2025-09-03'),
+    email: 'gumei@example.com',
+    phone: '13800138006',
+  },
+  {
+    id: 'user7',
+    name: '黎子',
+    avatar: '',
+    role: 'admin',
+    joinDate: new Date('2025-09-03'),
+    email: 'lizi@example.com',
+    phone: '13800138007',
+  },
+  {
+    id: 'user8',
+    name: '八戒',
+    avatar: '',
+    role: 'member',
+    joinDate: new Date('2025-09-03'),
+    email: 'bajie@example.com',
+    phone: '13800138008',
+  },
+  {
+    id: 'user9',
+    name: '葡萄',
+    avatar: '',
+    role: 'member',
+    joinDate: new Date('2025-09-03'),
+    email: 'putao@example.com',
+    phone: '13800138009',
+  },
+  {
+    id: 'user10',
+    name: '洋葱',
+    avatar: '',
+    role: 'couple',
+    joinDate: new Date('2024-02-15'),
+    email: 'yangcong@example.com',
+    phone: '13800138010',
+  },
+  {
+    id: 'user11',
+    name: '冰冰',
+    avatar: '',
+    role: 'couple',
+    joinDate: new Date('2024-02-15'),
+    email: 'bingbing@example.com',
+    phone: '13800138011',
+  },
+  {
+    id: 'user12',
+    name: '叮叮组',
+    avatar: '',
+    role: 'couple',
+    joinDate: new Date('2024-02-10'),
+    email: 'dingdingzu@example.com',
+    phone: '13800138012',
   },
 ];
 
@@ -179,9 +289,20 @@ export function getCurrentUser(): User {
 
 // 初始化应用数据
 export function initializeAppData() {
+  // 尝试从localStorage加载用户数据，如果没有则使用默认数据（包含最新添加的用户）
+  const savedUsersJson = localStorage.getItem('appUsers');
+  const users = savedUsersJson ? JSON.parse(savedUsersJson) : mockUsers;
+  
+  // 确保日期对象和关系数据正确恢复
+  const processedUsers = users.map((user: any) => ({
+    ...user,
+    joinDate: new Date(user.joinDate),
+    relationships: user.relationships || { family: [], love: [] }
+  }));
+  
   return {
     currentUser: getCurrentUser(),
-    users: mockUsers,
+    users: processedUsers,
     tasks: mockTasks,
     checkIns: mockCheckIns,
     teams: mockTeams,
