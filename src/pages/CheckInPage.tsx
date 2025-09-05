@@ -1,28 +1,28 @@
 import {
-  Typography,
-  Box,
-  Paper,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Chip,
-  Divider,
-} from '@mui/material';
-import {
+  CalendarMonth as CalendarIcon,
   CheckCircle as CheckIcon,
+  Comment as CommentIcon,
   Construction as ConstructionIcon,
   ExpandMore as ExpandMoreIcon,
-  Star as StarIcon,
-  Comment as CommentIcon,
-  CloudUpload as UploadIcon,
-  AccessTime as TimeIcon,
-  FlashOn as FlashIcon,
-  Notifications as NotificationIcon,
-  CalendarMonth as CalendarIcon,
   FileDownload as ExportIcon,
-  CloudOff as OfflineIcon,
+  FlashOn as FlashIcon,
   Help as HelpIcon,
+  Notifications as NotificationIcon,
+  CloudOff as OfflineIcon,
+  Star as StarIcon,
+  AccessTime as TimeIcon,
+  CloudUpload as UploadIcon,
 } from '@mui/icons-material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Chip,
+  Divider,
+  Paper,
+  Typography,
+} from '@mui/material';
 import PageLayout from '../components/PageLayout';
 
 export default function CheckInPage() {
@@ -93,7 +93,7 @@ export default function CheckInPage() {
     <PageLayout maxWidth="sm">
       {/* 页面标题 */}
       <Box sx={{ mb: 3, textAlign: 'center' }}>
-        <Typography variant="h4" sx={{ 
+        <Typography variant="h4" sx={{
           fontWeight: 'bold',
           background: 'linear-gradient(45deg, #2E7D32 30%, #4CAF50 90%)',
           backgroundClip: 'text',
@@ -127,7 +127,7 @@ export default function CheckInPage() {
             🚀 即将支持的功能
           </Typography>
         </Box>
-        
+
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           以下功能正在开发中，将陆续上线，敬请期待！
         </Typography>
@@ -141,8 +141,8 @@ export default function CheckInPage() {
                   <ExpandMoreIcon />
                 </Box>
               }
-              sx={{ 
-                '& .MuiAccordionSummary-content': { 
+              sx={{
+                '& .MuiAccordionSummary-content': {
                   alignItems: 'center',
                   gap: 2,
                 }
@@ -154,10 +154,10 @@ export default function CheckInPage() {
                   {feature.title}
                 </Typography>
               </Box>
-              <Chip 
-                label={feature.status} 
-                size="small" 
-                color="primary" 
+              <Chip
+                label={feature.status}
+                size="small"
+                color="primary"
                 variant="outlined"
               />
             </AccordionSummary>
@@ -170,7 +170,7 @@ export default function CheckInPage() {
         ))}
 
         <Divider sx={{ my: 2 }} />
-        
+
         <Box sx={{ textAlign: 'center', p: 2 }}>
           <Typography variant="body2" color="text.secondary">
             💡 这些功能将让任务管理更加智能和高效

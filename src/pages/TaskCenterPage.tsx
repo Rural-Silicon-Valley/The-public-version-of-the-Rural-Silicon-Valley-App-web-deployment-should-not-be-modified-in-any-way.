@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import {
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  Fab,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Button,
-  Avatar,
-  LinearProgress,
-  Paper,
-  Tabs,
-  Tab,
-  Stack,
-} from '@mui/material';
 import {
   Add as AddIcon,
   Assignment as AssignmentIcon,
-  AccessTime as TimeIcon,
-  CheckCircle as CheckIcon,
   Cancel as CancelIcon,
+  CheckCircle as CheckIcon,
+  AccessTime as TimeIcon,
   TrendingUp as TrendingUpIcon,
 } from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Fab,
+  LinearProgress,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
+import React, { useState } from 'react';
 import PageLayout from '../components/PageLayout';
+import { TaskCard } from '../components/TaskCard';
 import { useApp } from '../context/AppContext';
 import type { Task } from '../types';
-import { TaskCard } from '../components/TaskCard';
 import CreateTaskPage from './CreateTaskPage';
 
 // 任务状态枚举
@@ -48,7 +48,7 @@ function TaskStatsCard({ title, count, icon, color }: {
   color: string;
 }) {
   return (
-    <Card sx={{ 
+    <Card sx={{
       background: `linear-gradient(135deg, ${color}20 0%, ${color}10 100%)`,
       border: `1px solid ${color}30`,
     }}>
@@ -80,7 +80,7 @@ export default function TaskCenterPage() {
   const filteredTasks = state.tasks.filter((task: Task) => {
     const now = new Date();
     const dueDate = new Date(task.dueDate);
-    
+
     switch (activeTab) {
       case TaskStatus.ACTIVE:
         return task.status !== 'completed' && dueDate >= now;
@@ -111,7 +111,7 @@ export default function TaskCenterPage() {
     <PageLayout maxWidth="sm">
       {/* 页面标题 */}
       <Box sx={{ mb: 3, textAlign: 'center' }}>
-        <Typography variant="h4" sx={{ 
+        <Typography variant="h4" sx={{
           fontWeight: 'bold',
           background: 'linear-gradient(45deg, #2E7D32 30%, #4CAF50 90%)',
           backgroundClip: 'text',
@@ -132,10 +132,10 @@ export default function TaskCenterPage() {
           <TrendingUpIcon sx={{ mr: 1, color: 'primary.main' }} />
           任务概览
         </Typography>
-        
-        <Stack 
-          direction="row" 
-          spacing={2} 
+
+        <Stack
+          direction="row"
+          spacing={2}
           sx={{ mb: 2 }}
         >
           <Box sx={{ flex: 1 }}>
@@ -155,10 +155,10 @@ export default function TaskCenterPage() {
             />
           </Box>
         </Stack>
-        
-        <Stack 
-          direction="row" 
-          spacing={2} 
+
+        <Stack
+          direction="row"
+          spacing={2}
           sx={{ mb: 2 }}
         >
           <Box sx={{ flex: 1 }}>
@@ -189,18 +189,18 @@ export default function TaskCenterPage() {
               {completionRate.toFixed(1)}%
             </Typography>
           </Box>
-          <LinearProgress 
-            variant="determinate" 
-            value={completionRate} 
-            sx={{ 
-              height: 8, 
+          <LinearProgress
+            variant="determinate"
+            value={completionRate}
+            sx={{
+              height: 8,
               borderRadius: 4,
               bgcolor: '#e0e0e0',
               '& .MuiLinearProgress-bar': {
                 borderRadius: 4,
                 background: 'linear-gradient(90deg, #4CAF50 0%, #81C784 100%)',
               }
-            }} 
+            }}
           />
         </Box>
       </Paper>
@@ -217,23 +217,23 @@ export default function TaskCenterPage() {
             },
           }}
         >
-          <Tab 
-            label={`全部 (${stats.total})`} 
+          <Tab
+            label={`全部 (${stats.total})`}
             value={TaskStatus.ALL}
             icon={<AssignmentIcon />}
           />
-          <Tab 
-            label={`进行中 (${stats.active})`} 
+          <Tab
+            label={`进行中 (${stats.active})`}
             value={TaskStatus.ACTIVE}
             icon={<TimeIcon />}
           />
-          <Tab 
-            label={`已完成 (${stats.completed})`} 
+          <Tab
+            label={`已完成 (${stats.completed})`}
             value={TaskStatus.COMPLETED}
             icon={<CheckIcon />}
           />
-          <Tab 
-            label={`逾期 (${stats.overdue})`} 
+          <Tab
+            label={`逾期 (${stats.overdue})`}
             value={TaskStatus.OVERDUE}
             icon={<CancelIcon />}
           />

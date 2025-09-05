@@ -1,30 +1,30 @@
-import { useState } from 'react';
 import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Avatar,
-  IconButton,
-  Fab,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  Stack,
-  Chip,
-  MenuItem,
-} from '@mui/material';
-import {
-  Favorite as FavoriteIcon,
   Add as AddIcon,
   Edit as EditIcon,
+  Favorite as FavoriteIcon,
 } from '@mui/icons-material';
-import { useApp } from '../context/AppContext';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Fab,
+  Grid,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
 import PageLayout from '../components/PageLayout';
+import { useApp } from '../context/AppContext';
 
 interface Relationship {
   id: string;
@@ -115,7 +115,7 @@ const LovePage = () => {
   return (
     <PageLayout>
       <Box sx={{ p: 2 }}>
-        <Typography variant="h5" gutterBottom sx={{ 
+        <Typography variant="h5" gutterBottom sx={{
           mb: 3,
           display: 'flex',
           alignItems: 'center',
@@ -127,7 +127,7 @@ const LovePage = () => {
         <Grid container spacing={2}>
           {relationships.map((relation) => (
             <Grid item xs={12} key={relation.id}>
-              <Card sx={{ 
+              <Card sx={{
                 bgcolor: 'rgba(233, 30, 99, 0.05)',
                 borderRadius: 2,
                 position: 'relative',
@@ -150,9 +150,9 @@ const LovePage = () => {
                     >
                       {relation.person1.name[0]}
                     </Avatar>
-                    
-                    <FavoriteIcon 
-                      sx={{ 
+
+                    <FavoriteIcon
+                      sx={{
                         color: '#e91e63',
                         animation: 'pulse 1.5s infinite',
                         '@keyframes pulse': {
@@ -160,9 +160,9 @@ const LovePage = () => {
                           '50%': { transform: 'scale(1.2)' },
                           '100%': { transform: 'scale(1)' },
                         }
-                      }} 
+                      }}
                     />
-                    
+
                     <Avatar
                       sx={{
                         bgcolor: getAvatarColor(relation.person2.name),
@@ -178,11 +178,11 @@ const LovePage = () => {
                     <Typography variant="body1" gutterBottom>
                       {relation.person1.name} ♥ {relation.person2.name}
                     </Typography>
-                    <Chip 
+                    <Chip
                       label={relation.status}
                       color="primary"
                       size="small"
-                      sx={{ 
+                      sx={{
                         bgcolor: '#e91e63',
                         '& .MuiChip-label': { color: 'white' }
                       }}
@@ -194,7 +194,7 @@ const LovePage = () => {
                     )}
                   </Box>
 
-                  <IconButton 
+                  <IconButton
                     sx={{ position: 'absolute', top: 8, right: 8 }}
                     onClick={() => handleOpenDialog(relation)}
                   >

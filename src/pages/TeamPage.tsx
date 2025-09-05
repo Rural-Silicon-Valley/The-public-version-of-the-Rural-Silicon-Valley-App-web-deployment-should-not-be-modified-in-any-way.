@@ -1,25 +1,25 @@
 import {
-  Typography,
+  Assignment as AssignmentIcon,
+  CheckCircle as CheckCircleIcon,
+  Star as StarIcon,
+  TrendingUp as TrendingUpIcon,
+} from '@mui/icons-material';
+import {
+  Avatar,
   Box,
   Card,
   CardContent,
-  Avatar,
   Chip,
+  Divider,
+  LinearProgress,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  LinearProgress,
   Paper,
-  Divider,
   Stack,
+  Typography,
 } from '@mui/material';
-import {
-  Star as StarIcon,
-  TrendingUp as TrendingUpIcon,
-  Assignment as AssignmentIcon,
-  CheckCircle as CheckCircleIcon,
-} from '@mui/icons-material';
 import PageLayout from '../components/PageLayout';
 import { useApp } from '../context/AppContext';
 
@@ -39,15 +39,15 @@ function getAvatarColor(name: string): string {
 
 export default function TeamPage() {
   const { state } = useApp();
-  
+
   // 计算每个成员的任务统计
   const memberStats = state.users.map(user => {
-    const userTasks = state.tasks.filter(task => 
+    const userTasks = state.tasks.filter(task =>
       task.assignedTo.includes(user.id)
     );
     const completedTasks = userTasks.filter(task => task.status === 'completed');
     const activeTasks = userTasks.filter(task => task.status !== 'completed');
-    
+
     return {
       ...user,
       totalTasks: userTasks.length,
@@ -65,15 +65,15 @@ export default function TeamPage() {
     activeTasks: state.tasks.filter(task => task.status !== 'completed').length,
   };
 
-  const teamCompletionRate = teamStats.totalTasks > 0 
-    ? (teamStats.completedTasks / teamStats.totalTasks) * 100 
+  const teamCompletionRate = teamStats.totalTasks > 0
+    ? (teamStats.completedTasks / teamStats.totalTasks) * 100
     : 0;
 
   return (
     <PageLayout maxWidth="sm">
       {/* 页面标题 */}
       <Box sx={{ mb: 3, textAlign: 'center' }}>
-        <Typography variant="h4" sx={{ 
+        <Typography variant="h4" sx={{
           fontWeight: 'bold',
           background: 'linear-gradient(45deg, #2E7D32 30%, #4CAF50 90%)',
           backgroundClip: 'text',
@@ -94,10 +94,10 @@ export default function TeamPage() {
           <TrendingUpIcon sx={{ mr: 1, color: 'primary.main' }} />
           团队概览
         </Typography>
-        
-        <Stack 
-          direction="row" 
-          spacing={2} 
+
+        <Stack
+          direction="row"
+          spacing={2}
           sx={{ mb: 2 }}
         >
           <Box sx={{ flex: 1, textAlign: 'center' }}>
@@ -127,18 +127,18 @@ export default function TeamPage() {
               {teamCompletionRate.toFixed(1)}%
             </Typography>
           </Box>
-          <LinearProgress 
-            variant="determinate" 
-            value={teamCompletionRate} 
-            sx={{ 
-              height: 8, 
+          <LinearProgress
+            variant="determinate"
+            value={teamCompletionRate}
+            sx={{
+              height: 8,
               borderRadius: 4,
               bgcolor: '#e0e0e0',
               '& .MuiLinearProgress-bar': {
                 borderRadius: 4,
                 background: 'linear-gradient(90deg, #4CAF50 0%, #81C784 100%)',
               }
-            }} 
+            }}
           />
         </Box>
       </Paper>
@@ -151,7 +151,7 @@ export default function TeamPage() {
             成员排行榜
           </Typography>
         </Box>
-        
+
         <List sx={{ pt: 0 }}>
           {memberStats.map((member, index) => (
             <Box key={member.id}>
@@ -180,13 +180,13 @@ export default function TeamPage() {
                     </Typography>
                   )}
                 </Box>
-                
+
                 <ListItemAvatar>
                   <Avatar sx={{ bgcolor: getAvatarColor(member.name) }}>
                     {member.name.charAt(0)}
                   </Avatar>
                 </ListItemAvatar>
-                
+
                 <ListItemText
                   primary={
                     <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -222,8 +222,8 @@ export default function TeamPage() {
                           bgcolor: '#e0e0e0',
                           '& .MuiLinearProgress-bar': {
                             borderRadius: 3,
-                            bgcolor: member.completionRate >= 80 ? 'success.main' : 
-                                    member.completionRate >= 60 ? 'warning.main' : 'error.main',
+                            bgcolor: member.completionRate >= 80 ? 'success.main' :
+                              member.completionRate >= 60 ? 'warning.main' : 'error.main',
                           }
                         }}
                       />
@@ -243,10 +243,10 @@ export default function TeamPage() {
           <AssignmentIcon sx={{ mr: 1, color: 'info.main' }} />
           活动统计
         </Typography>
-        
+
         <Stack direction="row" spacing={2}>
           <Box sx={{ flex: 1 }}>
-            <Card sx={{ 
+            <Card sx={{
               background: 'linear-gradient(135deg, #2196f320 0%, #2196f310 100%)',
               border: '1px solid #2196f330',
             }}>
@@ -261,9 +261,9 @@ export default function TeamPage() {
               </CardContent>
             </Card>
           </Box>
-          
+
           <Box sx={{ flex: 1 }}>
-            <Card sx={{ 
+            <Card sx={{
               background: 'linear-gradient(135deg, #4caf5020 0%, #4caf5010 100%)',
               border: '1px solid #4caf5030',
             }}>

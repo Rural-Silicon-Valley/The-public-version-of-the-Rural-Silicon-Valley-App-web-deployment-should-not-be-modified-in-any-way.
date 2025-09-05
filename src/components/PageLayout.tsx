@@ -1,5 +1,5 @@
+import { Box, Container } from '@mui/material';
 import React from 'react';
-import { Container, Box } from '@mui/material';
 import BottomNav from './BottomNav';
 
 interface PageLayoutProps {
@@ -8,20 +8,20 @@ interface PageLayoutProps {
   hasBottomNav?: boolean;
 }
 
-function PageLayout({ 
-  children, 
-  maxWidth = 'sm', 
-  hasBottomNav = true 
+function PageLayout({
+  children,
+  maxWidth = 'sm',
+  hasBottomNav = true
 }: PageLayoutProps) {
   return (
-    <Box sx={{ 
+    <Box sx={{
       minHeight: '100vh',
       backgroundColor: '#f5f5f5',
       paddingBottom: hasBottomNav ? '80px' : '0px',
     }}>
-      <Container 
-        maxWidth={maxWidth} 
-        sx={{ 
+      <Container
+        maxWidth={maxWidth}
+        sx={{
           py: 2,
           px: { xs: 2, sm: 3 },
           minHeight: hasBottomNav ? 'calc(100vh - 80px)' : '100vh',
@@ -29,7 +29,7 @@ function PageLayout({
       >
         {children}
       </Container>
-      
+
       {hasBottomNav && <BottomNav />}
     </Box>
   );

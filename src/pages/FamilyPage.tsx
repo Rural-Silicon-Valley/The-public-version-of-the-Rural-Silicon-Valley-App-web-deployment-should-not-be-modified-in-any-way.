@@ -1,40 +1,40 @@
-import React, { useState } from 'react';
 import {
+  Add as AddIcon,
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  Favorite as FavoriteIcon,
+  People as PeopleIcon,
+} from '@mui/icons-material';
+import {
+  Avatar,
   Box,
-  Typography,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Fab,
+  Grid,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Avatar,
-  IconButton,
-  Fab,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
+  MenuItem,
+  Paper,
+  Stack,
   Tab,
   Tabs,
-  Paper,
-  Card,
-  CardContent,
-  Stack,
-  Chip,
-  MenuItem,
-  Grid,
+  TextField,
+  Typography,
 } from '@mui/material';
-import {
-  Add as AddIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Favorite as FavoriteIcon,
-  People as PeopleIcon,
-} from '@mui/icons-material';
-import { useApp } from '../context/AppContext';
-import type { User, FamilyRelationship, LoveRelationship } from '../types';
+import React, { useState } from 'react';
 import PageLayout from '../components/PageLayout';
+import { useApp } from '../context/AppContext';
+import type { FamilyRelationship, LoveRelationship, User } from '../types';
 
 // 生成头像颜色
 const getAvatarColor = (name: string) => {
@@ -69,7 +69,7 @@ export const FamilyPage: React.FC = () => {
   // 家庭成员相关状态
   const [memberDialogOpen, setMemberDialogOpen] = useState(false);
   const [newMemberName, setNewMemberName] = useState('');
-  
+
   // 恋人关系相关状态
   const [relationshipDialogOpen, setRelationshipDialogOpen] = useState(false);
   const [editingRelationship, setEditingRelationship] = useState<{
@@ -202,7 +202,7 @@ export const FamilyPage: React.FC = () => {
     }
 
     const relationshipId = editingRelationship ? editingRelationship.id : Date.now().toString();
-    
+
     if (tabValue === 0) {
       // 保存家庭关系
       const familyRelationship: FamilyRelationship = {
@@ -211,7 +211,7 @@ export const FamilyPage: React.FC = () => {
         relationshipType: relationshipFormData.status,
         description: relationshipFormData.description
       };
-      
+
       dispatch({
         type: 'ADD_FAMILY_RELATIONSHIP',
         payload: {
@@ -227,7 +227,7 @@ export const FamilyPage: React.FC = () => {
         status: relationshipFormData.status as 'dating' | 'engaged' | 'married',
         description: relationshipFormData.description
       };
-      
+
       dispatch({
         type: 'ADD_LOVE_RELATIONSHIP',
         payload: {
@@ -236,7 +236,7 @@ export const FamilyPage: React.FC = () => {
         }
       });
     }
-    
+
     handleCloseRelationshipDialog();
   };
 
@@ -256,9 +256,9 @@ export const FamilyPage: React.FC = () => {
               }
             }}
           >
-            <Tab 
+            <Tab
               icon={<PeopleIcon sx={{ mr: 1 }} />}
-              label="家庭成员" 
+              label="家庭成员"
               iconPosition="start"
             />
             <Tab
@@ -330,8 +330,8 @@ export const FamilyPage: React.FC = () => {
             </Fab>
 
             {/* 添加/编辑成员对话框 */}
-            <Dialog 
-              open={memberDialogOpen} 
+            <Dialog
+              open={memberDialogOpen}
               onClose={() => {
                 setMemberDialogOpen(false);
                 setEditingMember(null);
@@ -350,7 +350,7 @@ export const FamilyPage: React.FC = () => {
                 />
               </DialogContent>
               <DialogActions>
-                <Button 
+                <Button
                   onClick={() => {
                     setMemberDialogOpen(false);
                     setEditingMember(null);
@@ -367,7 +367,7 @@ export const FamilyPage: React.FC = () => {
           </>
         ) : (
           <>
-            <Typography variant="h5" gutterBottom sx={{ 
+            <Typography variant="h5" gutterBottom sx={{
               mb: 3,
               display: 'flex',
               alignItems: 'center',
@@ -378,8 +378,8 @@ export const FamilyPage: React.FC = () => {
 
             <Grid container spacing={2}>
               {(state.currentUser?.relationships?.[tabValue === 0 ? 'family' : 'love'] || []).map((relation) => {
-                const relatedUser = state.users.find(u => 
-                  tabValue === 0 
+                const relatedUser = state.users.find(u =>
+                  tabValue === 0
                     ? u.id === (relation as FamilyRelationship).memberId
                     : u.id === (relation as LoveRelationship).partnerId
                 );
@@ -387,17 +387,17 @@ export const FamilyPage: React.FC = () => {
 
                 return (
                   <Grid item xs={12} key={relation.id}>
-                    <Card sx={{ 
+                    <Card sx={{
                       bgcolor: 'rgba(233, 30, 99, 0.05)',
                       borderRadius: 2,
                       position: 'relative',
                       overflow: 'visible'
                     }}>
-                      <Box 
-                        sx={{ 
-                          position: 'absolute', 
-                          right: 8, 
-                          top: 8, 
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          right: 8,
+                          top: 8,
                           display: 'flex',
                           gap: 1,
                           zIndex: 10,
@@ -416,7 +416,7 @@ export const FamilyPage: React.FC = () => {
                               id: relatedUser.id,
                               name: relatedUser.name
                             },
-                            status: tabValue === 0 
+                            status: tabValue === 0
                               ? (relation as FamilyRelationship).relationshipType
                               : (relation as LoveRelationship).status,
                             description: relation.description || ''
@@ -444,75 +444,75 @@ export const FamilyPage: React.FC = () => {
                         </IconButton>
                       </Box>
                       <CardContent>
-                      <Stack
-                        direction="row"
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="center"
-                        position="relative"
-                        sx={{ mt: 2 }}
-                      >
-                        <Avatar
-                          sx={{
-                            bgcolor: getAvatarColor(state.currentUser?.name || ''),
-                            width: 56,
-                            height: 56
-                          }}
+                        <Stack
+                          direction="row"
+                          spacing={2}
+                          alignItems="center"
+                          justifyContent="center"
+                          position="relative"
+                          sx={{ mt: 2 }}
                         >
-                          {state.currentUser?.name?.[0] || '?'}
-                        </Avatar>
-                        
-                        <FavoriteIcon 
-                          sx={{ 
-                            color: '#e91e63',
-                            animation: 'pulse 1.5s infinite',
-                            '@keyframes pulse': {
-                              '0%': { transform: 'scale(1)' },
-                              '50%': { transform: 'scale(1.2)' },
-                              '100%': { transform: 'scale(1)' },
-                            }
-                          }} 
-                        />
-                        
-                        <Avatar
-                          sx={{
-                            bgcolor: getAvatarColor(relatedUser.name),
-                            width: 56,
-                            height: 56
-                          }}
-                        >
-                          {relatedUser.name[0]}
-                        </Avatar>
-                      </Stack>
+                          <Avatar
+                            sx={{
+                              bgcolor: getAvatarColor(state.currentUser?.name || ''),
+                              width: 56,
+                              height: 56
+                            }}
+                          >
+                            {state.currentUser?.name?.[0] || '?'}
+                          </Avatar>
 
-                      <Box sx={{ mt: 2, textAlign: 'center' }}>
-                        <Typography variant="body1" gutterBottom>
-                          {state.currentUser?.name} ♥ {relatedUser.name}
-                        </Typography>
-                        <Chip 
-                          label={tabValue === 0 
-                            ? (relation as FamilyRelationship).relationshipType
-                            : (relation as LoveRelationship).status
-                          }
-                          color="primary"
-                          size="small"
-                          sx={{ 
-                            bgcolor: '#e91e63',
-                            '& .MuiChip-label': { color: 'white' }
-                          }}
-                        />
-                        {relation.description && (
-                          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                            {relation.description}
+                          <FavoriteIcon
+                            sx={{
+                              color: '#e91e63',
+                              animation: 'pulse 1.5s infinite',
+                              '@keyframes pulse': {
+                                '0%': { transform: 'scale(1)' },
+                                '50%': { transform: 'scale(1.2)' },
+                                '100%': { transform: 'scale(1)' },
+                              }
+                            }}
+                          />
+
+                          <Avatar
+                            sx={{
+                              bgcolor: getAvatarColor(relatedUser.name),
+                              width: 56,
+                              height: 56
+                            }}
+                          >
+                            {relatedUser.name[0]}
+                          </Avatar>
+                        </Stack>
+
+                        <Box sx={{ mt: 2, textAlign: 'center' }}>
+                          <Typography variant="body1" gutterBottom>
+                            {state.currentUser?.name} ♥ {relatedUser.name}
                           </Typography>
-                        )}
-                      </Box>
+                          <Chip
+                            label={tabValue === 0
+                              ? (relation as FamilyRelationship).relationshipType
+                              : (relation as LoveRelationship).status
+                            }
+                            color="primary"
+                            size="small"
+                            sx={{
+                              bgcolor: '#e91e63',
+                              '& .MuiChip-label': { color: 'white' }
+                            }}
+                          />
+                          {relation.description && (
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                              {relation.description}
+                            </Typography>
+                          )}
+                        </Box>
 
-                    </CardContent>
-                  </Card>
-                </Grid>
-              );
-            })}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })}
             </Grid>
 
             {/* 添加恋爱关系按钮 */}
@@ -529,8 +529,8 @@ export const FamilyPage: React.FC = () => {
               <AddIcon />
             </Fab>
             {/* 添加/编辑恋爱关系对话框 */}
-            <Dialog 
-              open={relationshipDialogOpen} 
+            <Dialog
+              open={relationshipDialogOpen}
               onClose={handleCloseRelationshipDialog}
               maxWidth="sm"
               fullWidth

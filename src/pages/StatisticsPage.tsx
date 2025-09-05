@@ -1,37 +1,37 @@
-import React from 'react';
 import {
+  ArrowBack,
+  Assignment,
+  BarChart,
+  CheckCircle,
+  People,
+  PieChart,
+  Schedule,
+  Timeline,
+  TrendingUp,
+} from '@mui/icons-material';
+import {
+  Avatar,
   Box,
-  Typography,
   Card,
   CardContent,
-  LinearProgress,
   Chip,
-  Avatar,
+  Divider,
+  FormControl,
+  IconButton,
+  InputLabel,
+  LinearProgress,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Divider,
-  Select,
   MenuItem,
-  FormControl,
-  InputLabel,
-  IconButton,
+  Select,
+  Typography,
 } from '@mui/material';
-import {
-  TrendingUp,
-  Assignment,
-  People,
-  CheckCircle,
-  Schedule,
-  BarChart,
-  PieChart,
-  Timeline,
-  ArrowBack,
-} from '@mui/icons-material';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
 import PageLayout from '../components/PageLayout';
+import { useApp } from '../context/AppContext';
 
 // 生成彩色头像
 const getAvatarColor = (name: string) => {
@@ -63,7 +63,7 @@ const StatisticsPage: React.FC = () => {
   const totalCheckIns = checkIns.length;
   const completedTasks = tasks.filter(task => {
     const assignedUsers = task.assignedTo;
-    return assignedUsers.every(userId => 
+    return assignedUsers.every(userId =>
       checkIns.some(checkIn => checkIn.taskId === task.id && checkIn.userId === userId)
     );
   }).length;
@@ -80,7 +80,7 @@ const StatisticsPage: React.FC = () => {
       const userTasks = tasks.filter(task => task.assignedTo.includes(user.id));
       const userCheckIns = checkIns.filter(checkIn => checkIn.userId === user.id);
       const completionRate = userTasks.length > 0 ? (userCheckIns.length / userTasks.length) * 100 : 0;
-      
+
       // 计算最近活跃度（过去7天的打卡次数）
       const recentActivity = checkIns.filter(checkIn => {
         const checkInDate = new Date(checkIn.timestamp);
@@ -175,15 +175,15 @@ const StatisticsPage: React.FC = () => {
   return (
     <PageLayout maxWidth="md" hasBottomNav={false}>
       {/* 头部 */}
-      <Box sx={{ 
-        display: 'flex', 
-        alignItems: 'center', 
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
         mb: 3,
         gap: 2
       }}>
-        <IconButton 
+        <IconButton
           onClick={() => navigate('/')}
-          sx={{ 
+          sx={{
             bgcolor: 'rgba(255,255,255,0.8)',
             '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' }
           }}
@@ -192,10 +192,10 @@ const StatisticsPage: React.FC = () => {
         </IconButton>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
           <BarChart color="primary" />
-          <Typography 
-            variant="h4" 
-            color="primary" 
-            sx={{ 
+          <Typography
+            variant="h4"
+            color="primary"
+            sx={{
               fontWeight: 'bold',
               fontSize: { xs: '1.5rem', sm: '2rem' }
             }}
@@ -219,22 +219,22 @@ const StatisticsPage: React.FC = () => {
       </Box>
 
       {/* 统计卡片 */}
-      <Box sx={{ 
-        display: 'grid', 
-        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, 
-        gap: 3, 
-        mb: 3 
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' },
+        gap: 3,
+        mb: 3
       }}>
         {statCards.map((card, index) => (
-          <Card key={index} sx={{ 
+          <Card key={index} sx={{
             height: '100%',
             background: `linear-gradient(135deg, ${card.color}15, ${card.color}25)`,
             border: `1px solid ${card.color}30`
           }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <Box 
-                  sx={{ 
+                <Box
+                  sx={{
                     backgroundColor: card.color,
                     borderRadius: '50%',
                     p: 1,
@@ -264,11 +264,11 @@ const StatisticsPage: React.FC = () => {
       </Box>
 
       {/* 用户表现排行榜和任务创建统计 */}
-      <Box sx={{ 
-        display: 'grid', 
-        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, 
-        gap: 3, 
-        mb: 3 
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+        gap: 3,
+        mb: 3
       }}>
         <Card sx={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
           <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -284,8 +284,8 @@ const StatisticsPage: React.FC = () => {
                   <React.Fragment key={stat.user.id}>
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar 
-                          sx={{ 
+                        <Avatar
+                          sx={{
                             bgcolor: getAvatarColor(stat.user.name),
                             width: 40,
                             height: 40
@@ -300,8 +300,8 @@ const StatisticsPage: React.FC = () => {
                             <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                               {stat.user.name}
                             </Typography>
-                            <Chip 
-                              label={`${stat.completionRate}%`} 
+                            <Chip
+                              label={`${stat.completionRate}%`}
                               size="small"
                               color={stat.completionRate >= 80 ? 'success' : stat.completionRate >= 60 ? 'warning' : 'default'}
                             />
@@ -312,9 +312,9 @@ const StatisticsPage: React.FC = () => {
                             <Typography variant="body2" color="text.secondary">
                               完成: {stat.completedTasks}/{stat.totalTasks} 任务
                             </Typography>
-                            <LinearProgress 
-                              variant="determinate" 
-                              value={stat.completionRate} 
+                            <LinearProgress
+                              variant="determinate"
+                              value={stat.completionRate}
                               sx={{ mt: 0.5, height: 6, borderRadius: 3 }}
                             />
                           </Box>
@@ -353,9 +353,9 @@ const StatisticsPage: React.FC = () => {
                           <Typography variant="body2" color="text.secondary">
                             创建了 {stat.count} 个任务 ({stat.percentage}%)
                           </Typography>
-                          <LinearProgress 
-                            variant="determinate" 
-                            value={stat.percentage} 
+                          <LinearProgress
+                            variant="determinate"
+                            value={stat.percentage}
                             sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
                           />
                         </Box>
@@ -379,17 +379,17 @@ const StatisticsPage: React.FC = () => {
               最近7天活跃度趋势
             </Typography>
           </Box>
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'end', 
-            gap: 2, 
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'end',
+            gap: 2,
             height: 150,
             overflow: 'auto'
           }}>
             {dailyActivity.map((day, index) => (
-              <Box 
-                key={index} 
-                sx={{ 
+              <Box
+                key={index}
+                sx={{
                   flex: 1,
                   display: 'flex',
                   flexDirection: 'column',
@@ -428,10 +428,10 @@ const StatisticsPage: React.FC = () => {
               详细统计数据
             </Typography>
           </Box>
-          <Box sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, 
-            gap: 2 
+          <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' },
+            gap: 2
           }}>
             <Card sx={{ p: 2, textAlign: 'center', bgcolor: 'rgba(33, 150, 243, 0.1)' }}>
               <Typography variant="h4" color="primary">{totalTasks}</Typography>
