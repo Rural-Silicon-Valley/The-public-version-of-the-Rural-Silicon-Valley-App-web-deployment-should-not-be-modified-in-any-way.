@@ -18,7 +18,7 @@
 - **UI组件库**: Material-UI (MUI)
 - **图标系统**: Material Design Icons
 - **状态管理**: React Context API
-- **自动部署**: GitHub Actions
+- **自动部署**: GitHub Actions + 阿里云
 - **路由管理**: React Router v6
 - **样式方案**: CSS-in-JS + 响应式设计
 
