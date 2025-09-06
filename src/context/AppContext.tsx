@@ -234,42 +234,6 @@ const AppContext = createContext<{
 function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
-  // WebSocket连接
-  useEffect(() => {
-    // 如果环境中有WebSocket服务器URL，则建立连接
-    const WS_URL = import.meta.env.VITE_WS_URL;
-    if (WS_URL) {
-      const ws = new WebSocket(WS_URL);
-      
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          switch (data.type) {
-            case 'TASK_ADDED':
-              dispatch({ type: 'ADD_TASK', payload: data.task });
-              break;
-            case 'TASK_UPDATED':
-              dispatch({ type: 'UPDATE_TASK', payload: data.task });
-              break;
-            case 'TASK_DELETED':
-              dispatch({ type: 'DELETE_TASK', payload: data.taskId });
-              break;
-          }
-        } catch (error) {
-          console.error('WebSocket消息处理错误:', error);
-        }
-      };
-
-      ws.onerror = (error) => {
-        console.error('WebSocket错误:', error);
-      };
-
-      return () => {
-        ws.close();
-      };
-    }
-  }, []);
-
   // 初始化数据
   useEffect(() => {
     const data = initializeAppData();

@@ -22,12 +22,8 @@ export default defineConfig({
   server: {
     port: 5175,
     strictPort: true,
-    host: true,
-    watch: {
-      usePolling: true
-    }
+    host: true
   },
-  publicDir: 'public',
   build: {
     rollupOptions: {
       output: {
