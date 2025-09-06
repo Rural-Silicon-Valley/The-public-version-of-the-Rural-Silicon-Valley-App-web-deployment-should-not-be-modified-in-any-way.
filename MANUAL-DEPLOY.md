@@ -48,10 +48,21 @@ sudo rm -rf /usr/share/nginx/html/*
 # 复制新文件到网站目录
 sudo cp -r /tmp/dist-temp/* /usr/share/nginx/html/
 
-# 重设文件上下文（SELinux）
+# --- 关键权限修复步骤 ---
+
+# 1. 设置正确的文件和目录权限
+sudo find /usr/share/nginx/html -type d -exec chmod 755 {} \;
+sudo find /usr/share/nginx/html -type f -exec chmod 644 {} \;
+
+# 2. 设置正确的文件所有权
+sudo chown -R nginx:nginx /usr/share/nginx/html/
+
+# 3. 恢复文件的 SELinux 安全上下文
 sudo restorecon -Rv /usr/share/nginx/html/
 
-# 重启 Nginx
+# --- 权限修复结束 ---
+
+# 重启 Nginx 以应用更改
 sudo systemctl restart nginx
 
 # 清理临时文件
