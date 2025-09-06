@@ -1,0 +1,22 @@
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:5175');
+
+export const connectWebSocket = () => {
+  socket.connect();
+};
+
+export const disconnectWebSocket = () => {
+  socket.disconnect();
+};
+
+export const sendMessage = (type: string, payload: any) => {
+  socket.emit('message', { type, payload });
+};
+
+export const addMessageHandler = (handler: (data: any) => void) => {
+  socket.on('message', handler);
+  return () => socket.off('message', handler);
+};
+
+export type WebSocketMessageType = 'TASKS_UPDATED' | 'USERS_UPDATED' | 'USER_ADDED' | 'USER_UPDATED' | 'USER_DELETED' | 'TASK_ADDED' | 'TASK_UPDATED' | 'TASK_DELETED';
