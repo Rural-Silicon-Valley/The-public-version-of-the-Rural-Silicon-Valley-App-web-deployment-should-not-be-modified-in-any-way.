@@ -1,18 +1,8 @@
 name: Deploy to Alibaba Cloud ECS
 
-# 控制此工作流程的触      - name: Deploy on server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: |
-            rm -rf /usr/share/nginx/html/*
-            cp -r /tmp/deploy/dist/* /usr/share/nginx/html/
-            rm -rf /tmp/deploy
-            restorecon -Rv /usr/share/nginx/html/
-            systemctl restart nginx# 当有代码推送到 main 分支时触发
+# 控制此工作流程的触发条件
+on:
+  # 当有代码推送到 main 分支时触发
   push:
     branches: [ main ]
 
