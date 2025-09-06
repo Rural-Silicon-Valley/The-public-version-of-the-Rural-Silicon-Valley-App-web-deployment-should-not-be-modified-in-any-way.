@@ -72,9 +72,16 @@ function TaskStatsCard({ title, count, icon, color }: {
 }
 
 export default function TaskCenterPage() {
-  const { state } = useApp();
+  const { state, dispatch } = useApp();
   const [activeTab, setActiveTab] = useState<TaskStatusType>(TaskStatus.ALL);
   const [showCreateTask, setShowCreateTask] = useState(false);
+  
+  // 清空所有任务
+  const handleClearAllTasks = () => {
+    if (window.confirm('确定要清空所有任务吗？此操作不可撤销。')) {
+      dispatch({ type: 'SET_TASKS', payload: [] });
+    }
+  };
 
   // 筛选任务
   const filteredTasks = state.tasks.filter((task: Task) => {
@@ -124,6 +131,15 @@ export default function TaskCenterPage() {
         <Typography variant="body2" color="text.secondary">
           管理和跟踪所有任务进度
         </Typography>
+        <Button
+          variant="outlined"
+          color="error"
+          size="small"
+          onClick={handleClearAllTasks}
+          sx={{ mt: 2 }}
+        >
+          清空所有任务
+        </Button>
       </Box>
 
       {/* 统计概览 */}
