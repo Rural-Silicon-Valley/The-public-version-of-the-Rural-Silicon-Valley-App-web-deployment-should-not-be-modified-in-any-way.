@@ -1,4 +1,4 @@
-# 设置参数
+﻿# 设置参数
 param(
     [string]$versionTag = "",
     [string]$message = "",
@@ -17,7 +17,8 @@ if ([string]::IsNullOrEmpty($message)) {
 }
 
 # 设置输出编码
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 # 显示开始信息
 Write-Host "开始GitHub部署流程..." -ForegroundColor Green
@@ -48,7 +49,8 @@ Compress-Archive -Path ".\dist\*" -DestinationPath ".\dist.zip" -Force
 
 # 设置SSH参数
 $sshHost = "${serverUser}@${serverHost}"
-$sshParams = @("-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null")
+$sshKeyPath = "$env:USERPROFILE\.ssh\id_ed25519"
+$sshParams = @("-i", $sshKeyPath, "-o", "StrictHostKeyChecking=no")
 
 # 上传文件
 Write-Host "上传文件到服务器..." -ForegroundColor Green
@@ -56,7 +58,7 @@ Write-Host "上传文件到服务器..." -ForegroundColor Green
 
 # 执行远程命令
 Write-Host "部署文件..." -ForegroundColor Green
-$remoteScript = "cd /var/www/html && unzip -o dist.zip -d . && rm -f dist.zip"
+$remoteScript = "cd /var/www/html && unzip -o dist.zip -d . && rm -f dist.zip && chmod -R 755 ."
 & ssh $sshParams $sshHost $remoteScript
 
 # 清理临时文件
