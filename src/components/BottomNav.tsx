@@ -26,7 +26,6 @@ function BottomNav({ sx }: BottomNavProps) {
     { label: '打卡', value: '/checkin', icon: <CheckCircle /> },
     { label: '团队', value: '/team', icon: <People /> },
     { label: '家庭', value: '/family', icon: <FamilyRestroom /> },
-    { label: '我的', value: '/profile', icon: <Person /> },
   ];
 
   const currentValue = navigationItems.find(item => 

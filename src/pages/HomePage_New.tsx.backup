@@ -1,0 +1,333 @@
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { Box, Paper, IconButton, Typography, Grid, Fade } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useApp } from '../context/AppContext';
+import { TaskCard } from '../components/TaskCard';
+import BottomNav from '../components/BottomNav';
+import { dailyQuotes } from '../utils/mockData';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import { Box, Paper, IconButton, Typography, Grid, Fade } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useApp } from '../context/AppContext';
+import TaskCard from '../components/TaskCard';
+import BottomNav from '../components/BottomNav';
+import { dailyQuotes } from '../utils/mockData';
+
+const keyframes = {
+  '@keyframes float': {
+    '0%': { transform: 'translateY(0px)' },
+    '50%': { transform: 'translateY(-10px)' },
+    '100%': { transform: 'translateY(0px)' }
+  },
+  '@keyframes fadeInOut': {
+    '0%, 100%': { opacity: 0 },
+    '50%': { opacity: 1 }
+  }
+};
+
+const StyledQuoteButton = styled(IconButton)(({ theme }) => ({
+  position: 'fixed',
+  bottom: theme.spacing(10),
+  left: '50%',
+  transform: 'translateX(-50%)',
+  animation: 'float 2s ease-in-out infinite',
+  zIndex: 1000,
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
+
+const QuoteContainer = styled(Paper)(({ theme }) => ({
+  position: 'fixed',
+  bottom: theme.spacing(20),
+  left: '50%',
+  transform: 'translateX(-50%)',
+  padding: theme.spacing(2),
+  maxWidth: '80%',
+  textAlign: 'center',
+  zIndex: 1001,
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+  transition: 'opacity 0.5s ease-in-out',
+}));
+
+function HomePage() {
+  const { state } = useApp();
+  const { tasks, currentUser } = state;
+  const [showQuote, setShowQuote] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const timeoutRef = useRef<{show?: number, hide?: number}>({});
+  const isAnimatingRef = useRef(false);
+
+  const cleanup = useCallback(() => {
+    if (timeoutRef.current.show) {
+      window.clearTimeout(timeoutRef.current.show);
+    }
+    if (timeoutRef.current.hide) {
+      window.clearTimeout(timeoutRef.current.hide);
+    }
+    timeoutRef.current = {};
+    isAnimatingRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    return cleanup;
+  }, [cleanup]);
+
+  const handleQuoteClick = useCallback(() => {
+    if (isAnimatingRef.current) {
+      return;
+    }
+    isAnimatingRef.current = true;
+    
+    // Show quote
+    setShowQuote(true);
+    setFadeOut(false);
+    
+    // Set timeout to start fade out
+    timeoutRef.current.show = window.setTimeout(() => {
+      setFadeOut(true);
+      
+      // Set timeout to hide quote
+      timeoutRef.current.hide = window.setTimeout(() => {
+        setShowQuote(false);
+        setFadeOut(false);
+        isAnimatingRef.current = false;
+      }, 500); // Duration matches CSS transition
+    }, 2000); // Show duration
+  }, []);
+
+export default function HomePage() {
+  const { state } = useApp();
+  const { tasks, currentUser } = state;
+  const [showQuote, setShowQuote] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [animationId, setAnimationId] = useState<number | null>(null);
+
+  // 重置所有定时器和状态
+  const resetAnimation = () => {
+    if (animationId) {
+      window.clearTimeout(animationId);
+    }
+    setAnimationId(null);
+    setShowQuote(false);
+    setFadeOut(false);
+  };
+
+  // 组件卸载时清理
+  React.useEffect(() => {
+    return () => {
+      if (animationId) {
+        window.clearTimeout(animationId);
+      }
+    };
+  }, [animationId]);
+
+  // 处理按钮点击事件
+  const handleQuoteClick = useCallback(() => {
+    if (isAnimatingRef.current) {
+      return;
+    }
+
+    cleanup();
+    isAnimatingRef.current = true;
+    setShowQuote(true);
+    setFadeOut(false);
+
+    timeoutRef.current.show = window.setTimeout(() => {
+      setFadeOut(true);
+      timeoutRef.current.hide = window.setTimeout(() => {
+        setShowQuote(false);
+        setFadeOut(false);
+        isAnimatingRef.current = false;
+      }, 800);
+    }, 3000);
+  }, []);
+  };
+
+  // 过滤用户任务
+  const userTasks = tasks.filter(task => 
+    task.assignedTo.includes(currentUser?.id || '')
+  );
+
+  return (
+    <PageLayout maxWidth="sm">
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        p: { xs: 2, sm: 3 },
+        minHeight: '100vh',
+        position: 'relative'
+      }}>
+        {/* 欢迎卡片 */}
+        <Paper 
+          elevation={2}
+          sx={{
+            p: 2,
+            mb: 2,
+            borderRadius: 2,
+            backgroundColor: 'rgba(255, 255, 255, 0.9)'
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            欢迎回来, {currentUser?.name || '用户'}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            今天有 {userTasks.length} 个任务等待处理
+          </Typography>
+        </Paper>
+
+        {/* 任务列表或空状态 */}
+        {userTasks.length > 0 ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {userTasks.map(task => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </Box>
+        ) : (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Paper 
+              elevation={1}
+              sx={{
+                p: 3,
+                textAlign: 'center',
+                borderRadius: 2,
+                backgroundColor: 'rgba(255, 255, 255, 0.8)'
+              }}
+            >
+              <Typography variant="h6" gutterBottom>
+                目前没有待处理的任务
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                所有任务都已清空，请等待新任务分配
+              </Typography>
+            </Paper>
+            
+            <Paper 
+              elevation={1}
+              sx={{
+                p: 3,
+                textAlign: 'center',
+                borderRadius: 2,
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                border: '2px dashed #4CAF50'
+              }}
+            >
+              <Typography variant="h6" gutterBottom sx={{ color: '#1976d2' }}>
+                功能升级进行中...
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+                更多精彩功能正在重新开发
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#4CAF50', mt: 1 }}>
+                小宋正在奋笔疾书 ✍️
+              </Typography>
+            </Paper>
+          </Box>
+        )}
+
+        {/* 悬浮按钮 */}
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: { xs: '160px', sm: '120px' },
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1000,
+            ...keyframes
+          }}
+        >
+          <Box sx={{ position: 'relative' }}>
+            <IconButton
+              onClick={handleQuoteClick}
+              disabled={isAnimatingRef.current}
+              sx={{
+                width: 60,
+                height: 60,
+                backgroundColor: '#ff4081',
+                clipPath: 'polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%)',
+                animation: 'float 3s ease-in-out infinite',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  backgroundColor: '#f50057',
+                  transform: 'scale(1.1) translateY(-5px)',
+                },
+                '&:disabled': {
+                  backgroundColor: '#ffb4b4',
+                  opacity: 0.7
+                }
+              }}
+            >
+              <EmojiEmotionsIcon sx={{ color: 'white', fontSize: 30 }} />
+            </IconButton>
+
+            {/* 提示文字 */}
+            <Box
+              sx={{
+                position: 'absolute',
+                bottom: '120%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: 'white',
+                borderRadius: '20px',
+                boxShadow: 3,
+                padding: '8px 16px',
+                whiteSpace: 'nowrap',
+                color: '#666',
+                fontSize: '0.875rem',
+                animation: 'fadeInOut 2s ease-in-out infinite'
+              }}
+            >
+              点击看小宋每日一言
+            </Box>
+          </Box>
+        </Box>
+
+        {/* 弹出文字 */}
+        <Fade 
+          in={showQuote}
+          timeout={{
+            enter: 400,
+            exit: 800
+          }}
+          unmountOnExit
+        >
+          <Paper
+            sx={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              padding: '20px 30px',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              borderRadius: '20px',
+              textAlign: 'center',
+              border: '2px solid #ff4081',
+              zIndex: 1200,
+              opacity: fadeOut ? 0 : 1,
+              transition: 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              boxShadow: 6
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#ff4081',
+                fontStyle: 'italic',
+                fontWeight: 500
+              }}
+            >
+              生活乱七八糟，我要多点花招 ✨
+            </Typography>
+          </Paper>
+        </Fade>
+      </Box>
+    </PageLayout>
+  );
+}

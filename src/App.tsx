@@ -9,7 +9,6 @@ import { AppProvider, useApp } from './context/AppContext';
 // 导入页面组件
 import HomePage from './pages/HomePage';
 import CreateTaskPage from './pages/CreateTaskPage';
-import ProfilePage from './pages/ProfilePage';
 import TaskCenterPage from './pages/TaskCenterPage';
 import StatisticsPage from './pages/StatisticsPage';
 import LovePage from './pages/LovePage';
@@ -62,11 +61,7 @@ const AppContent: React.FC = () => {
             <CreateTaskPage />
           </ProtectedRoute>
         } />
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        } />
+
         <Route path="/tasks" element={
           <ProtectedRoute>
             <TaskCenterPage />
