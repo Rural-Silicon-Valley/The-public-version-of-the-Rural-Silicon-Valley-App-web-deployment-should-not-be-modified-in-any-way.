@@ -58,7 +58,7 @@ Write-Host "上传文件到服务器..." -ForegroundColor Green
 
 # 执行远程命令
 Write-Host "部署文件..." -ForegroundColor Green
-$remoteScript = "cd /var/www/html && unzip -o dist.zip -d . && rm -f dist.zip && chmod -R 755 ."
+$remoteScript = "cd /var/www/html && unzip -o dist.zip -d . && rm -f dist.zip && chown -R nginx:nginx . && chmod -R 755 . && systemctl restart nginx"
 & ssh $sshParams $sshHost $remoteScript
 
 # 清理临时文件
