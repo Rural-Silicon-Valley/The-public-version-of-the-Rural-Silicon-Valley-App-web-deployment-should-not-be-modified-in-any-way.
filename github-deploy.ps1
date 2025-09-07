@@ -17,6 +17,9 @@ $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($serverPass
 $plainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
 
+# 设置输出编码
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 # 显示开始信息
 Write-Host "开始GitHub部署流程..." -ForegroundColor Green
 
