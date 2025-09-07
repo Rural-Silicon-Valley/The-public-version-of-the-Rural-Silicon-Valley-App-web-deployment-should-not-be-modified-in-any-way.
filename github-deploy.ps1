@@ -58,14 +58,17 @@ Compress-Archive -Path ".\dist\*" -DestinationPath ".\dist.zip" -Force
 # 设置SSH和SCP环境
 $ENV:DISPLAY = $null
 $ENV:SSH_ASKPASS = $null
-$SCPParams = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-$SSHParams = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+$commonParams = @(
+    "-o", "StrictHostKeyChecking=no",
+    "-o", "UserKnownHostsFile=/dev/null",
+    "-o", "BatchMode=yes"
+)
 
 # 上传文件
 Write-Host "上传文件到服务器..." -ForegroundColor Green
 $sshHost = "${serverUser}@${serverHost}"
 
-Write-Output $plainPassword | scp $SCPParams ".\dist.zip" "${sshHost}:/var/www/html/"
+Write-Output $plainPassword | scp @commonParams ".\dist.zip" "${sshHost}:/var/www/html/"
 
 # 执行远程命令
 Write-Host "部署文件..." -ForegroundColor Green
@@ -75,7 +78,7 @@ unzip -o dist.zip -d .;
 rm -f dist.zip;
 '@
 
-Write-Output $plainPassword | ssh $SSHParams $sshHost $remoteScript
+Write-Output $plainPassword | ssh @commonParams $sshHost $remoteScript
 
 # 清除密码变量
 $plainPassword = $null
