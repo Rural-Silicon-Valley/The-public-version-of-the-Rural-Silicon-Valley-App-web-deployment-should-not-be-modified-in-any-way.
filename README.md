@@ -11,12 +11,6 @@
 - **详细数据统计** - 用户绩效排行、任务分布、活动趋势分析
 - **实时更新** - 基于React Context的状态管理，数据实时同步
 
-## 🌐 部署状态
-
-- **当前状态**: ✅ 已成功部署
-- **访问地址**: [http://116.62.56.214](http://116.62.56.214)
-- **部署方式**: 手动部署（详细步骤见 `MANUAL-DEPLOY.md`）
-
 ## 🛠️ 技术栈
 
 - **前端框架**: React 18 + TypeScript
@@ -24,7 +18,6 @@
 - **UI组件库**: Material-UI (MUI)
 - **图标系统**: Material Design Icons
 - **状态管理**: React Context API
-- **自动部署**: GitHub Actions + 阿里云 (待修复)
 - **路由管理**: React Router v6
 - **样式方案**: CSS-in-JS + 响应式设计
 
